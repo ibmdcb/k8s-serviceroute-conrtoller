@@ -23,32 +23,32 @@ import (
 // +genclient
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
-// CapsRoute is a specification for a CapsRoute resource
-type CapsRoute struct {
+// ServiceRoute is a specification for a ServiceRoute resource
+type ServiceRoute struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   CapsRouteSpec   `json:"spec"`
-	Status CapsRouteStatus `json:"status"`
+	Spec   ServiceRouteSpec   `json:"spec"`
+	Status ServiceRouteStatus `json:"status"`
 }
 
-// CapsRouteSpec is the spec for a CapsRoute resource
-type CapsRouteSpec struct {
-	ServiceName string `json:"serviceName"`
+// ServiceRouteSpec is the spec for a ServiceRoute resource
+type ServiceRouteSpec struct {
+	//ServiceName string `json:"serviceName"`
 	RouteName   string `json:"routeName"`
 }
 
-// CapsRouteStatus is the status for a CapsRoute resource
-type CapsRouteStatus struct {
+// ServiceRouteStatus is the status for a ServiceRoute resource
+type ServiceRouteStatus struct {
 	FullRouteName string `json:"fullRouteName"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
-// CapsRouteList is a list of CapsRoute resources
-type CapsRouteList struct {
+// ServiceRouteList is a list of ServiceRoute resources
+type ServiceRouteList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata"`
 
-	Items []CapsRoute `json:"items"`
+	Items []ServiceRoute `json:"items"`
 }

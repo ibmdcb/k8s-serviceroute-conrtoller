@@ -19,14 +19,14 @@ limitations under the License.
 package v1alpha1
 
 import (
+	v1alpha1 "dell.com/routecontroller/pkg/apis/routecontroller/v1alpha1"
+	"dell.com/routecontroller/pkg/generated/clientset/versioned/scheme"
 	rest "k8s.io/client-go/rest"
-	v1alpha1 "k8s.io/sample-controller/pkg/apis/samplecontroller/v1alpha1"
-	"k8s.io/sample-controller/pkg/generated/clientset/versioned/scheme"
 )
 
 type SamplecontrollerV1alpha1Interface interface {
 	RESTClient() rest.Interface
-	CapsRoutesGetter
+	ServiceRoutesGetter
 }
 
 // SamplecontrollerV1alpha1Client is used to interact with features provided by the samplecontroller.k8s.io group.
@@ -34,8 +34,8 @@ type SamplecontrollerV1alpha1Client struct {
 	restClient rest.Interface
 }
 
-func (c *SamplecontrollerV1alpha1Client) CapsRoutes(namespace string) CapsRouteInterface {
-	return newCapsRoutes(c, namespace)
+func (c *SamplecontrollerV1alpha1Client) ServiceRoutes(namespace string) ServiceRouteInterface {
+	return newServiceRoutes(c, namespace)
 }
 
 // NewForConfig creates a new SamplecontrollerV1alpha1Client for the given config.

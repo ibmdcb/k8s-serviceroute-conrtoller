@@ -19,17 +19,17 @@ limitations under the License.
 package fake
 
 import (
+	v1alpha1 "dell.com/routecontroller/pkg/generated/clientset/versioned/typed/routecontroller/v1alpha1"
 	rest "k8s.io/client-go/rest"
 	testing "k8s.io/client-go/testing"
-	v1alpha1 "k8s.io/sample-controller/pkg/generated/clientset/versioned/typed/samplecontroller/v1alpha1"
 )
 
 type FakeSamplecontrollerV1alpha1 struct {
 	*testing.Fake
 }
 
-func (c *FakeSamplecontrollerV1alpha1) CapsRoutes(namespace string) v1alpha1.CapsRouteInterface {
-	return &FakeCapsRoutes{c, namespace}
+func (c *FakeSamplecontrollerV1alpha1) ServiceRoutes(namespace string) v1alpha1.ServiceRouteInterface {
+	return &FakeServiceRoutes{c, namespace}
 }
 
 // RESTClient returns a RESTClient that is used to communicate
