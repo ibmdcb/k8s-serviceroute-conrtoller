@@ -24,17 +24,22 @@ import (
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/tools/clientcmd"
 	"k8s.io/klog/v2"
+
 	// Uncomment the following line to load the gcp plugin (only required to authenticate against GKE clusters).
 	// _ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 
-	clientset "k8s.io/sample-controller/pkg/generated/clientset/versioned"
-	informers "k8s.io/sample-controller/pkg/generated/informers/externalversions"
-	"k8s.io/sample-controller/pkg/signals"
+	clientset "dell.com/routecontroller/pkg/generated/clientset/versioned"
+	informers "dell.com/routecontroller/pkg/generated/informers/externalversions"
+	"dell.com/routecontroller/pkg/signals"
+	istioclientset "istio.io/client-go/pkg/clientset/versioned"
 )
 
 var (
-	masterURL  string
-	kubeconfig string
+	masterURL    string
+	kubeconfig   string
+	clustername  string
+	istio_config string
+	istio        IstioInfo
 )
 
 func main() {
@@ -49,22 +54,48 @@ func main() {
 		klog.Fatalf("Error building kubeconfig: %s", err.Error())
 	}
 
+	//used to monitor svc and ep in src cluster
 	kubeClient, err := kubernetes.NewForConfig(cfg)
 	if err != nil {
 		klog.Fatalf("Error building kubernetes clientset: %s", err.Error())
 	}
 
+	//used to monitor caps-routes in src cluster
 	exampleClient, err := clientset.NewForConfig(cfg)
 	if err != nil {
 		klog.Fatalf("Error building example clientset: %s", err.Error())
 	}
 
+	istiocfg, err := clientcmd.BuildConfigFromFlags(masterURL, istio_config)
+	if err != nil {
+		klog.Fatalf("Error building istio kubeconfig: %s", err.Error())
+	}
+
+	//used to create svc and ep in istio cluster
+	istioClient, err := kubernetes.NewForConfig(istiocfg)
+	if err != nil {
+		klog.Fatalf("Error building istio kubernetes clientset: %s", err.Error())
+	}
+
+	//used to create istio artifacts in istio cluster
+	istioclientset, err := istioclientset.NewForConfig(istiocfg)
+	if err != nil {
+		klog.Fatalf("Error building istio kubernetes clientset: %s", err.Error())
+	}
+
+	//used to create service routes in istio cluster
+	istiocapsclientset, err := clientset.NewForConfig(istiocfg)
+	if err != nil {
+		klog.Fatalf("Error building istio kubernetes clientset: %s", err.Error())
+	}
+
 	kubeInformerFactory := kubeinformers.NewSharedInformerFactory(kubeClient, time.Second*30)
 	exampleInformerFactory := informers.NewSharedInformerFactory(exampleClient, time.Second*30)
 
-	controller := NewController(kubeClient, exampleClient,
-		kubeInformerFactory.Apps().V1().Deployments(),
-		exampleInformerFactory.Samplecontroller().V1alpha1().Foos())
+	controller := NewController(kubeClient, exampleClient, istioClient, istioclientset, istiocapsclientset, clustername, istio,
+		kubeInformerFactory.Core().V1().Endpoints(),
+		kubeInformerFactory.Core().V1().Services(),
+		exampleInformerFactory.Samplecontroller().V1alpha1().ServiceRoutes())
 
 	// notice that there is no need to run Start methods in a separate goroutine. (i.e. go kubeInformerFactory.Start(stopCh)
 	// Start method is non-blocking and runs all registered informers in a dedicated goroutine.
@@ -79,4 +110,11 @@ func main() {
 func init() {
 	flag.StringVar(&kubeconfig, "kubeconfig", "", "Path to a kubeconfig. Only required if out-of-cluster.")
 	flag.StringVar(&masterURL, "master", "", "The address of the Kubernetes API server. Overrides any value in kubeconfig. Only required if out-of-cluster.")
+	flag.StringVar(&clustername, "clustername", "", "name of the cluster. required.")
+	flag.StringVar(&istio_config, "istio_config", "", "Path to a kubeconfig to the istio cluster. required.")
+	flag.StringVar(&istio.istio_ns, "istio_ns", "", "Namespace for artifacts in the istio cluster. required.")
+	flag.StringVar(&istio.istio_suffix, "istio_suffix", "", "DNS suffix supported by the istio cluster. required.")
+	flag.StringVar(&istio.istio_gateway, "istio_gateway", "", "DNS suffix supported by the istio cluster. required.")
+	flag.StringVar(&istio.istio_gateway_http, "istio_gateway_http", "", "DNS suffix supported by the istio cluster. required.")
+	flag.StringVar(&istio.istio_gateway_https, "istio_gateway_https", "", "DNS suffix supported by the istio cluster. required.")
 }

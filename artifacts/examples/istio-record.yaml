@@ -1,0 +1,7 @@
+apiVersion: networking.dell/v1alpha1
+kind: ServiceRoute
+metadata:
+  name: cpe-tools02-s1-pks--kafka-prom--thanos-querier
+  namespace: sample
+spec:
+  routeName: example-route2
