@@ -49,7 +49,7 @@ import (
 	listers "github.com/ibmdcb/k8s-serviceroute-conrtoller/pkg/generated/listers/routecontroller/v1alpha1"
 )
 
-const controllerAgentName = "sample-controller"
+const controllerAgentName = "serviceroute-controller"
 
 const (
 	// SuccessSynced is used as part of the Event 'reason' when a ServiceRoute is synced

@@ -1,7 +1,7 @@
 apiVersion: networking.dcb/v1alpha1
 kind: ServiceRoute
 metadata:
-  name: thanos-querier
-  namespace: kafka-prom
+  name: grafana
+  namespace: grafana-blendstat
 spec:
-  routeName: example-route
+  routeName: grafana-blendstat

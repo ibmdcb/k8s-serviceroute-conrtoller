@@ -1,0 +1,79 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  # The required headless service for StatefulSets
+  name: route-controllerhl
+  labels:
+    app: route-controller
+spec:
+  ports:
+  - port: 9190
+    name: http
+  clusterIP: None
+  selector:
+    app: route-controller01
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: route-controller-config
+data:
+  kube.config: |
+      apiVersion: v1
+      clusters:<kubeconfig-data>
+  istio.config: |
+       apiVersion: v1
+       clusters:<kubeconfig-data>
+                      
+---
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: route-controller
+spec:
+  serviceName: route-controllerhl
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: route-controller01
+    spec:
+      #serviceAccountName: route-controller
+      terminationGracePeriodSeconds: 10
+      securityContext:
+        fsGroup: 65534
+      containers:        
+      - name: route-controller-k8s
+        image: harbor.ausmpc.pcf.<domain.com>/platform_eng_public/routecontroller:latest
+        command: [ "/bin/sh", "-c", "--" ]
+        args: [ "/app/routecontroller -kubeconfig=/app/config/kube.config -clustername=<kube-cluster-name> -istio_config=/app/config/istio.config -istio_ns=sample -istio_suffix=<domain.com> -istio_gateway=httpbin-gateway -istio_gateway_http=http-redirect -istio_gateway_https=https" ]
+        volumeMounts:
+          - name: config-volume
+            mountPath: /app/config
+        ports:
+          - name: http
+            protocol: TCP
+            containerPort: 9190
+        imagePullPolicy: Always
+        env:
+          - name: MY_POD_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+          - name: MY_POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+          - name: KEY
+            value: "Value"
+      volumes:
+        - name: config-volume
+          configMap:
+            name: route-controller-config
+            items:
+            - key: kube.config
+              path: kube.config
+            - key: istio.config
+              path: istio.config
+  
