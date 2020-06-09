@@ -1,4 +1,6 @@
 # serviceroute-controller
+
+This controller controls the lifecyle of a CRD called ServiceRoute. In the example below, for a service called **grafana** in the namespace **grafana-blendstat**, the ServiceRoute declares a route called **grafana-route**.
 ```yaml
 apiVersion: networking.dcb/v1alpha1
 kind: ServiceRoute
@@ -6,8 +8,9 @@ metadata:
   name: grafana
   namespace: grafana-blendstat
 spec:
-  routeName: grafana-blendstat
+  routeName: grafana-route
 ```
+The controller acts as the route provider. It monitors the CRD and creates the route using potentially any ingress setup or DNS automation, but in the current implementation, it creates routes on a separate Istio cluster using Virtual Service, Destination Rules, and Ingress Gateway.   
 
 This repository is based on the example-controller  a simple controller for watching Foo resources as
 defined with a CustomResourceDefinition (CRD).
