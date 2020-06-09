@@ -1,6 +1,15 @@
-# sample-controller
+# serviceroute-controller
+```yaml
+apiVersion: networking.dcb/v1alpha1
+kind: ServiceRoute
+metadata:
+  name: grafana
+  namespace: grafana-blendstat
+spec:
+  routeName: grafana-blendstat
+```
 
-This repository implements a simple controller for watching Foo resources as
+This repository is based on the example-controller  a simple controller for watching Foo resources as
 defined with a CustomResourceDefinition (CRD).
 
 **Note:** go-get or vendor this package as `k8s.io/sample-controller`.
