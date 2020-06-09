@@ -28,9 +28,9 @@ import (
 	// Uncomment the following line to load the gcp plugin (only required to authenticate against GKE clusters).
 	// _ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 
-	clientset "dell.com/routecontroller/pkg/generated/clientset/versioned"
-	informers "dell.com/routecontroller/pkg/generated/informers/externalversions"
-	"dell.com/routecontroller/pkg/signals"
+	clientset "github.com/ibmdcb/k8s-serviceroute-conrtoller/pkg/generated/clientset/versioned"
+	informers "github.com/ibmdcb/k8s-serviceroute-conrtoller/pkg/generated/informers/externalversions"
+	"github.com/ibmdcb/k8s-serviceroute-conrtoller/pkg/signals"
 	istioclientset "istio.io/client-go/pkg/clientset/versioned"
 )
 

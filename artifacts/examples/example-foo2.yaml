@@ -1,4 +1,4 @@
-apiVersion: networking.dell/v1alpha1
+apiVersion: networking.dcb/v1alpha1
 kind: ServiceRoute
 metadata:
   name: prometheus

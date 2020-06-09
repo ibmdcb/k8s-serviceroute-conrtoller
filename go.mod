@@ -1,6 +1,6 @@
 // This is a generated file. Do not edit directly.
 
-module dell.com/routecontroller
+module github.com/ibmdcb/k8s-serviceroute-conrtoller
 
 go 1.13
 

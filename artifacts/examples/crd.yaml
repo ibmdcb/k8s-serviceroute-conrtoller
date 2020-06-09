@@ -1,9 +1,9 @@
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
-  name: serviceroutes.networking.dell
+  name: serviceroutes.networking.dcb
 spec:
-  group: networking.dell
+  group: networking.dcb
   version: v1alpha1
   names:
     kind: ServiceRoute

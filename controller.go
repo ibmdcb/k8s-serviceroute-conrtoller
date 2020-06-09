@@ -42,11 +42,11 @@ import (
 	v1alpha3 "istio.io/client-go/pkg/apis/networking/v1alpha3"
 	istioclientset "istio.io/client-go/pkg/clientset/versioned"
 
-	samplev1alpha1 "dell.com/routecontroller/pkg/apis/routecontroller/v1alpha1"
-	clientset "dell.com/routecontroller/pkg/generated/clientset/versioned"
-	samplescheme "dell.com/routecontroller/pkg/generated/clientset/versioned/scheme"
-	informers "dell.com/routecontroller/pkg/generated/informers/externalversions/routecontroller/v1alpha1"
-	listers "dell.com/routecontroller/pkg/generated/listers/routecontroller/v1alpha1"
+	samplev1alpha1 "github.com/ibmdcb/k8s-serviceroute-conrtoller/pkg/apis/routecontroller/v1alpha1"
+	clientset "github.com/ibmdcb/k8s-serviceroute-conrtoller/pkg/generated/clientset/versioned"
+	samplescheme "github.com/ibmdcb/k8s-serviceroute-conrtoller/pkg/generated/clientset/versioned/scheme"
+	informers "github.com/ibmdcb/k8s-serviceroute-conrtoller/pkg/generated/informers/externalversions/routecontroller/v1alpha1"
+	listers "github.com/ibmdcb/k8s-serviceroute-conrtoller/pkg/generated/listers/routecontroller/v1alpha1"
 )
 
 const controllerAgentName = "sample-controller"
