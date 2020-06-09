@@ -18,5 +18,5 @@ package routecontroller
 
 // GroupName is the group name used in this package
 const (
-	GroupName = "networking.dell"
+	GroupName = "networking.dcb"
 )

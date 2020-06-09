@@ -21,7 +21,7 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	routecontroller "dell.com/routecontroller/pkg/apis/routecontroller"
+	routecontroller "github.com/ibmdcb/k8s-serviceroute-conrtoller/pkg/apis/routecontroller"
 )
 
 // SchemeGroupVersion is group version used to register these objects
