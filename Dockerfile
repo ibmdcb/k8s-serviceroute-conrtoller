@@ -7,10 +7,10 @@ RUN go build -o routecontroller .
 
 FROM alpine:edge
 RUN apk add --no-cache ca-certificates
+RUN mkdir /app
+WORKDIR /app
 COPY --from=builder /app/routecontroller .
-EXPOSE 8080
-ENV NSXTHOST="nsxt-api-host"
-ENV NSXTUSER="user"
-ENV NSXTPASS="pass"
+
+#EXPOSE 8080
 ENV DEBUG=""
-CMD ["/routecontroller"]
+CMD ["/app/routecontroller"]
