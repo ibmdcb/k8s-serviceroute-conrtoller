@@ -26,6 +26,9 @@ In essense, it allows an istio cluster to provide **route as a service**, a serv
 
 
 ## Architecture
+<p align="center">
+  <img src="images/route_as_a_service.jpg"/>
+</p>
 
 ## Details
 
