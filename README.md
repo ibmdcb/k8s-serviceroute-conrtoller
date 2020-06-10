@@ -104,6 +104,8 @@ gateway_http=http-redirect -istio_gateway_https=https
 ```
 Refer to the yaml file in the Istio cluster section to understand where the parameters values (sample, httpbin-gateway, http-redirect, https)are from.
 
+A sample yaml file is provided [here](/controller-sts.yml). A statefulset is used, but it can also be a deployment.
+
 ### On Application Cluster
 
 ```sh
