@@ -32,11 +32,9 @@ In essense, it allows an istio cluster to provide **route as a service**, a serv
 
 ## Details
 
-The sample controller uses [client-go library](https://github.com/kubernetes/client-go/tree/master/tools/cache) extensively.
-The details of interaction points of the sample controller with various mechanisms from this library are
-explained [here](docs/controller-client-go.md).
+This controller uses [sample controller](https://github.com/kubernetes/sample-controller) extensively.
 
-## Fetch sample-controller and its dependencies
+## Deployment
 
 Like the rest of Kubernetes, sample-controller has used
 [godep](https://github.com/tools/godep) and `$GOPATH` for years and is
