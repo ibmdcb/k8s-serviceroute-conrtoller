@@ -54,7 +54,7 @@ docker build -t k8s-serviceroute-conrtoller:latest .
 ### On Istio Cluster
 
 * Install Istio 
-* Configure Secure Ingress Gateway. The following example references [istio example](https://archive.istio.io/v1.4/docs/tasks/traffic-management/ingress/secure-ingress-mount/) Newer versions of Istio should work similarly, will test soon.
+* Configure Secure Ingress Gateway. The following example references [istio example](https://archive.istio.io/v1.4/docs/tasks/traffic-management/ingress/secure-ingress-mount/). Newer versions of Istio should work similarly, will test soon.
 ```yaml
 apiVersion: v1
 items:
