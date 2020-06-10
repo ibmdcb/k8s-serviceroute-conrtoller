@@ -54,7 +54,7 @@ docker build -t k8s-serviceroute-conrtoller:latest .
 ### On Istio Cluster
 
 * Install Istio 
-* Configure Secure Ingress Gateway. The following example references [istio example] (https://archive.istio.io/v1.4/docs/tasks/traffic-management/ingress/secure-ingress-mount/) Newer versions of Istio should work similarly, will test soon.
+* Configure Secure Ingress Gateway. The following example references [istio example](https://archive.istio.io/v1.4/docs/tasks/traffic-management/ingress/secure-ingress-mount/) Newer versions of Istio should work similarly, will test soon.
 ```yaml
 apiVersion: v1
 items:
@@ -86,16 +86,27 @@ items:
         privateKey: /etc/istio/ingressgateway-certs/tls.key
         serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
 ```
-* Wild card DNS *.domain.com should map to IngressGateway IP
-* and Wild Card Cert for *.domain.com should be configured as above
+* Wild card DNS *.domain.com mapping to IngressGateway IP
+* Wild Card Cert for *.domain.com referenced in above yaml
+* **In addition**, create ServiceRoute CRD. This CRD is only used for record-keeping purpose.
+```sh
+# create a CustomResourceDefinition
+kubectl create -f artifacts/examples/crd.yaml
+```
 
- .:latest
-**Prerequisite**: Since the sample-controller uses `apps/v1` deployments, the Kubernetes cluster version should be greater than 1.9.
+### On Control Cluster
+Control cluster is where serviceroute controllers run. As the controllers need kube-config info of both the istio cluster and application clusters, it is best to run outside of application clusters. It can run on the isito cluster, or a separate admin cluster. Each application cluster requires its own controller. Multiple controllers can all run in the same admin cluster.
+
 
 ```sh
-# assumes you have a working kubeconfig, not required if operating in-cluster
 ./serviceroute-controller -kubeconfig=<app-cluster-config> -clustername==<app-cluster-name> -istio_config==<istio-cluster-config> -istio_ns=sample -istio_suffix=<domain.com> -istio_gateway=httpbin-gateway -istio_
 gateway_http=http-redirect -istio_gateway_https=https
+```
+Refer to the yaml file in the Istio cluster section to understand where the parameters values (sample, httpbin-gateway, http-redirect, https)are from.
+
+### On Application Cluster
+
+```sh
 
 # create a CustomResourceDefinition
 kubectl create -f artifacts/examples/crd.yaml
@@ -103,7 +114,7 @@ kubectl create -f artifacts/examples/crd.yaml
 # create a custom resource of type Foo
 kubectl create -f artifacts/examples/example-foo.yaml
 
-# check deployments created through the custom resource
-kubectl get deployments
+# check status of the route creation
+kubectl get serviceroute --all-namespaces -o yaml
 ```
 
