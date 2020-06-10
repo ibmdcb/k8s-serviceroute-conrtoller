@@ -20,7 +20,7 @@ metadata:
 spec:
   routeName: grafana-route
 status:
-  fullRouteName: grafana-route.fqdn.com
+  fullRouteName: grafana-route.domain.com
 ```
 In essense, it allows an istio cluster to provide **route as a service**, a service needed when manual setup of wildcard dns and certificate takes time.
 
