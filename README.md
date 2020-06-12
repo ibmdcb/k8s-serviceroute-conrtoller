@@ -30,7 +30,7 @@ In essense, it allows an istio cluster to provide **route as a service**, a serv
   <img src="docs/images/route_as_a_service.jpg"/>
 </p>
 
-**Note:** The copying of services from the application cluster to the istio-cluster is compatible with the [Multi-Cluster Services API proposal](https://github.com/kubernetes/enhancements/issues/1645)
+**Note:** The copying of services from the application cluster to the istio-cluster is compatible with the [Multi-Cluster Services API proposal](https://github.com/kubernetes/enhancements/issues/1645). It requires pods being routable between clusters.
 
 ## Details
 
